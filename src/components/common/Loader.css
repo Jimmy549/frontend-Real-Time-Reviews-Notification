@@ -1,0 +1,363 @@
+/* Professional Loading Animations */
+
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.loader-overlay.fullscreen {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.loader-text {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #666;
+  font-weight: 500;
+}
+
+/* Spinner Loader */
+.spinner-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner-loader .spinner {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #2d5016;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.spinner-loader.small .spinner {
+  width: 20px;
+  height: 20px;
+  border-width: 2px;
+}
+
+.spinner-loader.medium .spinner {
+  width: 40px;
+  height: 40px;
+}
+
+.spinner-loader.large .spinner {
+  width: 60px;
+  height: 60px;
+  border-width: 4px;
+}
+
+.spinner-loader.primary .spinner {
+  border-top-color: #2d5016;
+}
+
+.spinner-loader.secondary .spinner {
+  border-top-color: #8b5a3c;
+}
+
+/* Dots Loader */
+.dots-loader {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.dots-loader div {
+  background: #2d5016;
+  border-radius: 50%;
+  animation: dots-bounce 1.4s ease-in-out infinite both;
+}
+
+.dots-loader.small div {
+  width: 6px;
+  height: 6px;
+}
+
+.dots-loader.medium div {
+  width: 10px;
+  height: 10px;
+}
+
+.dots-loader.large div {
+  width: 14px;
+  height: 14px;
+}
+
+.dots-loader div:nth-child(1) { animation-delay: -0.32s; }
+.dots-loader div:nth-child(2) { animation-delay: -0.16s; }
+.dots-loader div:nth-child(3) { animation-delay: 0s; }
+
+/* Pulse Loader */
+.pulse-loader {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.pulse-loader div {
+  border-radius: 50%;
+  animation: pulse-scale 1.5s ease-in-out infinite;
+}
+
+.pulse-loader.small div {
+  width: 8px;
+  height: 8px;
+}
+
+.pulse-loader.medium div {
+  width: 12px;
+  height: 12px;
+}
+
+.pulse-loader.large div {
+  width: 16px;
+  height: 16px;
+}
+
+.pulse-loader.primary div {
+  background: #2d5016;
+}
+
+.pulse-loader.secondary div {
+  background: #8b5a3c;
+}
+
+.pulse-loader div:nth-child(1) { animation-delay: 0s; }
+.pulse-loader div:nth-child(2) { animation-delay: 0.2s; }
+.pulse-loader div:nth-child(3) { animation-delay: 0.4s; }
+
+/* Tea Cup Loader */
+.tea-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tea-cup {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border: 3px solid #8b5a3c;
+  border-radius: 0 0 20px 20px;
+  background: linear-gradient(to bottom, transparent 50%, #2d5016 50%);
+  animation: tea-fill 2s ease-in-out infinite;
+}
+
+.tea-cup::before {
+  content: '';
+  position: absolute;
+  right: -12px;
+  top: 8px;
+  width: 8px;
+  height: 12px;
+  border: 2px solid #8b5a3c;
+  border-left: none;
+  border-radius: 0 8px 8px 0;
+}
+
+.tea-loader.small .tea-cup {
+  width: 30px;
+  height: 30px;
+}
+
+.tea-loader.large .tea-cup {
+  width: 50px;
+  height: 50px;
+}
+
+.steam {
+  position: absolute;
+  width: 2px;
+  height: 15px;
+  background: #ddd;
+  border-radius: 1px;
+  top: -20px;
+  opacity: 0.7;
+  animation: steam-rise 1.5s ease-in-out infinite;
+}
+
+.steam:nth-child(1) {
+  left: 8px;
+  animation-delay: 0s;
+}
+
+.steam:nth-child(2) {
+  left: 15px;
+  animation-delay: 0.3s;
+}
+
+.steam:nth-child(3) {
+  left: 22px;
+  animation-delay: 0.6s;
+}
+
+/* Skeleton Loader */
+.skeleton-loader {
+  width: 100%;
+  max-width: 300px;
+}
+
+.skeleton-line {
+  height: 12px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  animation: skeleton-shimmer 1.5s ease-in-out infinite;
+}
+
+.skeleton-line.short {
+  width: 60%;
+}
+
+.skeleton-loader.small .skeleton-line {
+  height: 8px;
+}
+
+.skeleton-loader.large .skeleton-line {
+  height: 16px;
+}
+
+/* Animations */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes dots-bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse-scale {
+  0%, 100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+@keyframes tea-fill {
+  0%, 100% {
+    background: linear-gradient(to bottom, transparent 70%, #2d5016 70%);
+  }
+  50% {
+    background: linear-gradient(to bottom, transparent 30%, #2d5016 30%);
+  }
+}
+
+@keyframes steam-rise {
+  0% {
+    opacity: 0.7;
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-10px) rotate(5deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20px) rotate(-5deg);
+  }
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Button Loading States */
+.btn-loading {
+  position: relative;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.btn-loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  margin: -8px 0 0 -8px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Card Loading States */
+.card-loading {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-loading::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  animation: card-shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes card-shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .loader-text {
+    font-size: 0.8rem;
+  }
+  
+  .tea-cup {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .skeleton-loader {
+    max-width: 250px;
+  }
+}
