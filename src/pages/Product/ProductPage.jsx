@@ -276,8 +276,8 @@ const ProductPage = () => {
           </div>
         </div>
 
-        {/* Reviews Section */}
-        <div id="reviews-section">
+        {/* Reviews Section - Moved here after product details */}
+        <div id="reviews-section" className="mt-12 lg:mt-16">
           <Reviews productId={id || '1'} />
         </div>
 
