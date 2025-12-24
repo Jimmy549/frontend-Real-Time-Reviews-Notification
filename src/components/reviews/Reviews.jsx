@@ -3,11 +3,15 @@ import { reviewsAPI } from '../../api/reviews';
 import socketService from '../../services/socketService';
 import ReviewItem from './ReviewItem';
 import AddReviewForm from './AddReviewForm';
+import { useAuth } from '../../context/AuthContext';
+import LoginAlert from '../common/LoginAlert';
 
 const Reviews = ({ productId }) => {
+  const { isAuthenticated } = useAuth();
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showAddForm, setShowAddForm] = useState(false);
+  const [showLoginAlert, setShowLoginAlert] = useState(false);
 
   useEffect(() => {
     fetchReviews();
@@ -47,6 +51,14 @@ const Reviews = ({ productId }) => {
     }
   };
 
+  const handleWriteReviewClick = () => {
+    if (!isAuthenticated) {
+      setShowLoginAlert(true);
+      return;
+    }
+    setShowAddForm(!showAddForm);
+  };
+
   const handleReviewAdded = (newReview) => {
     // Add review manually and let socket handle real-time updates for others
     setReviews(prev => {
@@ -68,41 +80,48 @@ const Reviews = ({ productId }) => {
   }
 
   return (
-    <div className="mt-8">
-      <div className="flex justify-between items-center mb-6">
-        <h3 className="text-2xl font-bold">Reviews ({reviews.length})</h3>
-        <button
-          onClick={() => setShowAddForm(!showAddForm)}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-        >
-          {showAddForm ? 'Cancel' : 'Write Review'}
-        </button>
-      </div>
+    <>
+      <div className="mt-8">
+        <div className="flex justify-between items-center mb-6">
+          <h3 className="text-2xl font-bold">Reviews ({reviews.length})</h3>
+          <button
+            onClick={handleWriteReviewClick}
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200"
+          >
+            {showAddForm ? 'Cancel' : 'Write Review'}
+          </button>
+        </div>
 
-      {showAddForm && (
-        <AddReviewForm
-          productId={productId}
-          onReviewAdded={handleReviewAdded}
-          onCancel={() => setShowAddForm(false)}
-        />
-      )}
-
-      <div className="space-y-6">
-        {reviews.length === 0 ? (
-          <div className="text-center py-8 text-gray-500">
-            No reviews yet. Be the first to review this product!
-          </div>
-        ) : (
-          reviews.map((review) => (
-            <ReviewItem
-              key={review._id}
-              review={review}
-              onReviewDeleted={handleReviewDeleted}
-            />
-          ))
+        {showAddForm && (
+          <AddReviewForm
+            productId={productId}
+            onReviewAdded={handleReviewAdded}
+            onCancel={() => setShowAddForm(false)}
+          />
         )}
+
+        <div className="space-y-6">
+          {reviews.length === 0 ? (
+            <div className="text-center py-8 text-gray-500">
+              No reviews yet. Be the first to review this product!
+            </div>
+          ) : (
+            reviews.map((review) => (
+              <ReviewItem
+                key={review._id}
+                review={review}
+                onReviewDeleted={handleReviewDeleted}
+              />
+            ))
+          )}
+        </div>
       </div>
-    </div>
+      
+      <LoginAlert 
+        isOpen={showLoginAlert} 
+        onClose={() => setShowLoginAlert(false)} 
+      />
+    </>
   );
 };
 
