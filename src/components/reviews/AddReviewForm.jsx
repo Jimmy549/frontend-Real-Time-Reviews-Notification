@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { reviewsAPI } from '../../api/reviews';
 import { useAuth } from '../../context/AuthContext';
-import LoginAlert from '../common/LoginAlert';
 import StarRating from '../common/StarRating';
 
 const AddReviewForm = ({ productId, onReviewAdded, onCancel }) => {
   const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     content: '',
     rating: 0
   });
   const [loading, setLoading] = useState(false);
-  const [showLoginAlert, setShowLoginAlert] = useState(false);
   const [ratingError, setRatingError] = useState('');
 
   const handleSubmit = async (e) => {
@@ -19,7 +19,7 @@ const AddReviewForm = ({ productId, onReviewAdded, onCancel }) => {
     
     // Check if user is authenticated
     if (!isAuthenticated) {
-      setShowLoginAlert(true);
+      navigate('/login');
       return;
     }
 
@@ -97,11 +97,6 @@ const AddReviewForm = ({ productId, onReviewAdded, onCancel }) => {
           </div>
         </form>
       </div>
-      
-      <LoginAlert 
-        isOpen={showLoginAlert} 
-        onClose={() => setShowLoginAlert(false)} 
-      />
     </>
   );
 };
