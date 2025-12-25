@@ -1,6 +1,6 @@
-# Tea E-Commerce Frontend
+E-Commerce Frontend
 
-React + Vite frontend for Tea E-commerce platform with real-time features.
+React + Vite frontend E-commerce platform with real-time features.
 
 ## 🚀 Features
 
