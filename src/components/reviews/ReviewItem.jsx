@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { reviewsAPI } from '../../api/reviews';
 import socketService from '../../services/socketService';
 import Replies from './Replies';
+import StarRating from '../common/StarRating';
+import { useAuth } from '../../context/AuthContext';
 
 const ReviewItem = ({ review, onReviewDeleted }) => {
+  const { user } = useAuth();
   const [likes, setLikes] = useState(review.likesCount || 0);
   const [isLiked, setIsLiked] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
@@ -75,6 +78,9 @@ const ReviewItem = ({ review, onReviewDeleted }) => {
     }
   };
 
+  // Check if current user can delete this review
+  const canDelete = user && (user._id === review.userId?._id || user.role === 'admin');
+
   const handleDelete = async () => {
     if (window.confirm('Are you sure you want to delete this review?')) {
       try {
@@ -87,17 +93,6 @@ const ReviewItem = ({ review, onReviewDeleted }) => {
     }
   };
 
-  const renderStars = (rating) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <span
-        key={i}
-        className={`text-lg ${i < rating ? 'text-yellow-400' : 'text-gray-300'}`}
-      >
-        ★
-      </span>
-    ));
-  };
-
   return (
     <div className="border border-gray-200 rounded-lg p-6">
       <div className="flex justify-between items-start mb-4">
@@ -108,7 +103,7 @@ const ReviewItem = ({ review, onReviewDeleted }) => {
           <div>
             <h4 className="font-semibold">{review.userId?.username || 'Anonymous'}</h4>
             <div className="flex items-center space-x-2">
-              <div className="flex">{renderStars(review.rating)}</div>
+              <StarRating rating={review.rating} readonly={true} size="text-lg" showLabel={false} />
               <span className="text-sm text-gray-500">
                 {new Date(review.createdAt).toLocaleDateString()}
               </span>
@@ -116,12 +111,14 @@ const ReviewItem = ({ review, onReviewDeleted }) => {
           </div>
         </div>
         
-        <button
-          onClick={handleDelete}
-          className="text-red-500 hover:text-red-700 text-sm"
-        >
-          Delete
-        </button>
+        {canDelete && (
+          <button
+            onClick={handleDelete}
+            className="text-red-500 hover:text-red-700 text-sm"
+          >
+            Delete
+          </button>
+        )}
       </div>
 
       <p className="text-gray-700 mb-4">{review.content}</p>

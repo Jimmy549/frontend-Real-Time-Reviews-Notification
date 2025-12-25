@@ -2,15 +2,17 @@ import React, { useState } from 'react';
 import { reviewsAPI } from '../../api/reviews';
 import { useAuth } from '../../context/AuthContext';
 import LoginAlert from '../common/LoginAlert';
+import StarRating from '../common/StarRating';
 
 const AddReviewForm = ({ productId, onReviewAdded, onCancel }) => {
   const { isAuthenticated } = useAuth();
   const [formData, setFormData] = useState({
     content: '',
-    rating: 5
+    rating: 0
   });
   const [loading, setLoading] = useState(false);
   const [showLoginAlert, setShowLoginAlert] = useState(false);
+  const [ratingError, setRatingError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,6 +23,13 @@ const AddReviewForm = ({ productId, onReviewAdded, onCancel }) => {
       return;
     }
 
+    // Validate star rating
+    if (formData.rating === 0) {
+      setRatingError('Please select a star rating');
+      return;
+    }
+
+    setRatingError('');
     setLoading(true);
 
     try {
@@ -29,7 +38,7 @@ const AddReviewForm = ({ productId, onReviewAdded, onCancel }) => {
         productId
       });
       onReviewAdded(response.data);
-      setFormData({ content: '', rating: 5 });
+      setFormData({ content: '', rating: 0 });
     } catch (error) {
       console.error('Error adding review:', error);
       alert('Failed to add review. Please try again.');
@@ -45,20 +54,17 @@ const AddReviewForm = ({ productId, onReviewAdded, onCancel }) => {
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-sm font-medium mb-2">Rating</label>
-            <div className="flex space-x-2">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <button
-                  key={star}
-                  type="button"
-                  onClick={() => setFormData(prev => ({ ...prev, rating: star }))}
-                  className={`text-2xl ${
-                    star <= formData.rating ? 'text-yellow-400' : 'text-gray-300'
-                  }`}
-                >
-                  ★
-                </button>
-              ))}
-            </div>
+            <StarRating 
+              rating={formData.rating}
+              onRatingChange={(rating) => {
+                setFormData(prev => ({ ...prev, rating }));
+                setRatingError(''); // Clear error when rating is selected
+              }}
+              size="text-3xl"
+            />
+            {ratingError && (
+              <p className="text-red-500 text-sm mt-1">{ratingError}</p>
+            )}
           </div>
 
           <div className="mb-4">
