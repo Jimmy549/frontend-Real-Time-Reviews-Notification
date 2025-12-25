@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Prosto+One&family=Montserrat:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+@import './styles/responsive.css';
+
+@layer base {
+  :root {
+    --color-primary: #282828;
+    --color-secondary: #C3B212;
+    --color-background: #FEFEFE;
+    --color-outline: #A0A0A0;
+  }
+  
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--color-background);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+
+@layer utilities {
+  .font-prosto { font-family: 'Prosto One', cursive; }
+  .font-montserrat { font-family: 'Montserrat', sans-serif; }
+  
+  .text-primary { color: var(--color-primary); }
+  .text-secondary { color: var(--color-secondary); }
+  .bg-primary { background-color: var(--color-primary); }
+  .bg-secondary { background-color: var(--color-secondary); }
+  .border-outline { border-color: var(--color-outline); }
+  
+  .container-responsive {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  @media (min-width: 640px) {
+    .container-responsive { max-width: 640px; padding-left: 1.5rem; padding-right: 1.5rem; }
+  }
+  
+  @media (min-width: 768px) {
+    .container-responsive { max-width: 768px; padding-left: 2rem; padding-right: 2rem; }
+  }
+  
+  @media (min-width: 1024px) {
+    .container-responsive { max-width: 1024px; padding-left: 2.5rem; padding-right: 2.5rem; }
+  }
+  
+  @media (min-width: 1280px) {
+    .container-responsive { max-width: 1280px; padding-left: 4.5rem; padding-right: 4.5rem; }
+  }
+}
